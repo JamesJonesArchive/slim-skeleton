@@ -1,8 +1,9 @@
 <?php
+
 namespace epierce;
-use \Slim\Slim;
-use \USF\IdM\UsfConfig;
-use \Monolog\Handler\StreamHandler;
+
+use Slim\Slim;
+use USF\IdM\UsfConfig;
 
 class Application extends Slim
 {
@@ -38,7 +39,7 @@ class Application extends Slim
         // If a list of slim middleware was given instantiate them all
         if (is_array($usfConfig->slimMiddlewareObjects)) {
             foreach ($usfConfig->slimMiddlewareObjects as $slimMiddleware) {
-                $this->add(new $slimMiddleware);
+                $this->add(new $slimMiddleware());
             }
         }
 
@@ -47,6 +48,7 @@ class Application extends Slim
             $this->container->singleton('log', function () {
                 $log = new \Monolog\Logger($this->getName());
                 $log->pushHandler(new \Monolog\Handler\StreamHandler($this->config('log.file_location'), \Monolog\Logger::DEBUG));
+
                 return $log;
             });
         }
@@ -60,7 +62,7 @@ class Application extends Slim
                 'cache' => realpath($templateDir.'/cache'),
                 'auto_reload' => $this->config('view.twig.auto_reload'),
                 'strict_variables' => $this->config('view.twig.strict_variables'),
-                'autoescape' => $this->config('view.twig.autoescape')
+                'autoescape' => $this->config('view.twig.autoescape'),
             ];
             $this->view->parserExtensions = [new \Slim\Views\TwigExtension()];
         }
@@ -86,7 +88,7 @@ class Application extends Slim
         // Setup AuthN/AuthZ map
         // $this->environment['auth.interceptUrlMap'] = $this->config('interceptMap');
 
-        /**
+        /*
         * Log requests and results
         */
         $this->hook('slim.after', function () {
@@ -108,14 +110,14 @@ class Application extends Slim
             // Sample log message
             $this->log->info("Slim-Skeleton '/' route");
             // Render index view
-            $this->render('index.twig');
+            $this->render('index.twig', ['username' => $this->environment['principal.name']]);
         });
     }
 
     private function _handleNotFound()
     {
         throw new \Exception(
-            'Resource ' . $this->request->getResourceUri() . ' using ' . $this->request->getMethod() . ' method does not exist.',
+            'Resource '.$this->request->getResourceUri().' using '.$this->request->getMethod().' method does not exist.',
             404
         );
     }
@@ -137,11 +139,10 @@ class Application extends Slim
                     'data' => [
                         'status' => $status,
                         'statusText' => preg_replace('/^[0-9]+ (.*)$/', '$1', $statusText),
-                        'description' => $e->getMessage()
-                    ]
+                        'description' => $e->getMessage(),
+                    ],
                 ]
             )
         );
     }
-
 }
