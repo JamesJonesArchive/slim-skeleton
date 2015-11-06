@@ -1,6 +1,6 @@
 {
   "name": "slim-skeleton",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Skeleton project using Slim and Grunt",
   "main": "Gruntfile.js",
   "repository": {

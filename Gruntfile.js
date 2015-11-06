@@ -132,6 +132,10 @@ module.exports = function(grunt) {
     // Task definition
     grunt.registerTask('default', ['watch']);
     grunt.registerTask('serve', [
+        'copy',
+        'less',
+        'concat',
+        'uglify',
         'php:dist',         // Start PHP Server
         'browserSync:dist', // Using the php instance as a proxy
         'watch'             // Any other watch tasks you want to run
