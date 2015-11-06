@@ -101,11 +101,9 @@ module.exports = function(grunt) {
             main_js: {
                 files: [
                     //watched files
-                    './bower_components/jquery/dist/jquery.js',
-                    './bower_components/bootstrap/dist/js/bootstrap.js',
-                    './assets/javascript/frontend.js'
+                    './assets/javascript/main.js'
                 ],
-                tasks: ['concat:js_frontend','uglify:frontend'],     //tasks to run
+                tasks: ['concat:main_js','uglify:frontend'],     //tasks to run
                 options: {
                     livereload: true                        //reloads the browser
                 }
