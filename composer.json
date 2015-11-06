@@ -1,0 +1,34 @@
+{
+    "name": "epierce/slim-skeleton",
+    "description": "A Slim Framework 2.0 skeleton application for rapid development",
+    "keywords": ["microframework","rest","router"],
+    "homepage": "http://github.com/epierce/slim-skeleton",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eric Pierce",
+            "email": "epierce@usf.edu"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=5.5.0",
+        "monolog/monolog": "1.*",
+        "slim/slim": "2.*",
+        "slim/views": "0.*",
+        "twig/twig": "1.*",
+        "usf-it/usf-auth": "0.4.*",
+        "usf-it/usf-idm-common": "0.2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "@stable",
+        "squizlabs/php_codesniffer": "*",
+        "codecontrol/phpunit-helper": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "epierce\\": "public/src/"
+        }
+    }
+}

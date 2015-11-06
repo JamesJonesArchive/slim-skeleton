@@ -1,0 +1,30 @@
+slimMiddlewareObjects:
+  - \USF\auth\SlimAuthMiddleware
+
+slimSettings:
+  log.enabled: true
+  log.monolog: true
+  log.file_location: ../logs/application.log
+  view.twig: true
+  view.twig.auto_reload: true
+  view.twig.strict_variables: false
+  view.twig.autoescape: true
+  interceptUrlMap:
+    GET:
+      '/**':
+        authN: permitAll
+        authZ: permitAll
+    PUT:
+      '/**':
+        authN: denyAll
+        authZ: denyAll
+    POST:
+      '/**':
+        authN: denyAll
+        authZ: denyAll
+    DELETE:
+      '/**':
+        authN: denyAll
+        authZ: denyAll
+  casConfig:
+    environment: development

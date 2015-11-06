@@ -1,0 +1,15 @@
+/vendor/
+/logs/*
+!/logs/README.md
+/templates/cache/*
+!/templates/cache/README.md
+.DS_STORE
+composer.lock
+bower_components/
+node_modules/
+public/assets/fonts/*
+!public/assets/fonts/README.md
+public/assets/javascript/*
+!public/assets/javascript/README.md
+public/assets/stylesheets/*
+!public/assets/stylesheets/README.md
