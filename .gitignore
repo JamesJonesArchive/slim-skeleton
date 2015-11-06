@@ -13,3 +13,4 @@ public/assets/javascript/*
 !public/assets/javascript/README.md
 public/assets/stylesheets/*
 !public/assets/stylesheets/README.md
+.sass-cache/
