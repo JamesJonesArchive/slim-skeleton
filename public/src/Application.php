@@ -20,7 +20,7 @@ class Application extends Slim
             $this->_handleNotFound();
         });
 
-        $this->error(function ($e) {
+        $this->error(function (\Exception $e) {
             $this->_handleException($e);
         });
 
@@ -33,7 +33,7 @@ class Application extends Slim
                 $this->config($var, $usfConfig->slimSettings[$var]);
             }
         } else {
-            throw new \Exception('No configuration data found!', 500);
+            throw new \Exception('No Slim configuration data found!', 500);
         }
 
         // If a list of slim middleware was given instantiate them all
@@ -73,20 +73,20 @@ class Application extends Slim
         // });
 
         // Setup Authentication Providers
-        //HMAC
+        // HMAC
         // $this->environment['auth.hmac.keyRegistry'] = $this->config('hmacRegistry');
         // if ($this->config->hmacTimeout) {
         //     $this->environment['auth.hmac.timeout'] = $this->config('hmacTimeout');
         // }
         //
-        // //CAS
-        // $this->environment['auth.config.cas'] = $this->config('casConfig');
+        // CAS
+        $this->environment['auth.config.cas'] = $this->config('casConfig');
         //
-        // //TokenAuth
+        // TokenAuth
         // $this->environment['auth.config.token'] = $this->config('tokenConfig');
 
         // Setup AuthN/AuthZ map
-        // $this->environment['auth.interceptUrlMap'] = $this->config('interceptMap');
+        $this->environment['auth.interceptUrlMap'] = $this->config('interceptUrlMap');
 
         /*
         * Log requests and results
@@ -109,8 +109,11 @@ class Application extends Slim
         $this->get('/', function () {
             // Sample log message
             $this->log->info("Slim-Skeleton '/' route");
-            // Render index view
+            // Render index view and include the logged username
             $this->render('index.twig', ['username' => $this->environment['principal.name']]);
+        });
+        $this->get('/denied', function () {
+            // This URL is denied through the interceptUrlMap
         });
     }
 

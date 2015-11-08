@@ -18,7 +18,7 @@
         "slim/slim": "2.*",
         "slim/views": "0.*",
         "twig/twig": "1.*",
-        "usf-it/usf-auth": "0.4.*",
+        "usf-it/usf-auth": "0.5.*",
         "usf-it/usf-idm-common": "dev-develop"
     },
     "require-dev": {

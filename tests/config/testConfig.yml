@@ -13,7 +13,10 @@ slimSettings:
   view.twig.autoescape: true
   interceptUrlMap:
     GET:
-      '/**':
+      '/denied':
+        authN: denyAll
+        authZ: denyAll
+      '^.*':
         authN: permitAll
         authZ: permitAll
     PUT:

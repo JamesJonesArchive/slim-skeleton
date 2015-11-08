@@ -1,4 +1,6 @@
 /vendor/
+/coverage/
+!/coverage/README.md
 /logs/*
 !/logs/README.md
 /templates/cache/*
