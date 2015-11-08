@@ -1,8 +1,9 @@
 <?php
+
 namespace epierce;
-use \Slim\Slim;
-use \USF\IdM\UsfConfig;
-use \Monolog\Handler\StreamHandler;
+
+use Slim\Slim;
+use USF\IdM\UsfConfig;
 
 class Application extends Slim
 {
@@ -19,7 +20,7 @@ class Application extends Slim
             $this->_handleNotFound();
         });
 
-        $this->error(function ($e) {
+        $this->error(function (\Exception $e) {
             $this->_handleException($e);
         });
 
@@ -32,13 +33,13 @@ class Application extends Slim
                 $this->config($var, $usfConfig->slimSettings[$var]);
             }
         } else {
-            throw new \Exception('No configuration data found!', 500);
+            throw new \Exception('No Slim configuration data found!', 500);
         }
 
         // If a list of slim middleware was given instantiate them all
         if (is_array($usfConfig->slimMiddlewareObjects)) {
             foreach ($usfConfig->slimMiddlewareObjects as $slimMiddleware) {
-                $this->add(new $slimMiddleware);
+                $this->add(new $slimMiddleware());
             }
         }
 
@@ -47,6 +48,7 @@ class Application extends Slim
             $this->container->singleton('log', function () {
                 $log = new \Monolog\Logger($this->getName());
                 $log->pushHandler(new \Monolog\Handler\StreamHandler($this->config('log.file_location'), \Monolog\Logger::DEBUG));
+
                 return $log;
             });
         }
@@ -60,7 +62,7 @@ class Application extends Slim
                 'cache' => realpath($templateDir.'/cache'),
                 'auto_reload' => $this->config('view.twig.auto_reload'),
                 'strict_variables' => $this->config('view.twig.strict_variables'),
-                'autoescape' => $this->config('view.twig.autoescape')
+                'autoescape' => $this->config('view.twig.autoescape'),
             ];
             $this->view->parserExtensions = [new \Slim\Views\TwigExtension()];
         }
@@ -71,22 +73,22 @@ class Application extends Slim
         // });
 
         // Setup Authentication Providers
-        //HMAC
+        // HMAC
         // $this->environment['auth.hmac.keyRegistry'] = $this->config('hmacRegistry');
         // if ($this->config->hmacTimeout) {
         //     $this->environment['auth.hmac.timeout'] = $this->config('hmacTimeout');
         // }
         //
-        // //CAS
-        // $this->environment['auth.config.cas'] = $this->config('casConfig');
+        // CAS
+        $this->environment['auth.config.cas'] = $this->config('casConfig');
         //
-        // //TokenAuth
+        // TokenAuth
         // $this->environment['auth.config.token'] = $this->config('tokenConfig');
 
         // Setup AuthN/AuthZ map
-        // $this->environment['auth.interceptUrlMap'] = $this->config('interceptMap');
+        $this->environment['auth.interceptUrlMap'] = $this->config('interceptUrlMap');
 
-        /**
+        /*
         * Log requests and results
         */
         $this->hook('slim.after', function () {
@@ -107,15 +109,18 @@ class Application extends Slim
         $this->get('/', function () {
             // Sample log message
             $this->log->info("Slim-Skeleton '/' route");
-            // Render index view
-            $this->render('index.twig');
+            // Render index view and include the logged username
+            $this->render('index.twig', ['username' => $this->environment['principal.name']]);
+        });
+        $this->get('/denied', function () {
+            // This URL is denied through the interceptUrlMap
         });
     }
 
     private function _handleNotFound()
     {
         throw new \Exception(
-            'Resource ' . $this->request->getResourceUri() . ' using ' . $this->request->getMethod() . ' method does not exist.',
+            'Resource '.$this->request->getResourceUri().' using '.$this->request->getMethod().' method does not exist.',
             404
         );
     }
@@ -137,11 +142,10 @@ class Application extends Slim
                     'data' => [
                         'status' => $status,
                         'statusText' => preg_replace('/^[0-9]+ (.*)$/', '$1', $statusText),
-                        'description' => $e->getMessage()
-                    ]
+                        'description' => $e->getMessage(),
+                    ],
                 ]
             )
         );
     }
-
 }

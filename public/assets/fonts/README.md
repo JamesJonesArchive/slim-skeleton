@@ -1,1 +1,1 @@
-Your Slim Framework application's font files will be written to this directory.
+Your Slim Framework application's web fonts will be written to this directory.

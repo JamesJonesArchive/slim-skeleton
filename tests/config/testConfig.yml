@@ -1,0 +1,35 @@
+slimTemplateDir: templates
+
+slimMiddlewareObjects:
+  - \USF\auth\SlimAuthMiddleware
+
+slimSettings:
+  log.enabled: true
+  log.monolog: true
+  log.file_location: /tmp/slim-skeleton_tests.log
+  view.twig: true
+  view.twig.auto_reload: true
+  view.twig.strict_variables: false
+  view.twig.autoescape: true
+  interceptUrlMap:
+    GET:
+      '/denied':
+        authN: denyAll
+        authZ: denyAll
+      '^.*':
+        authN: permitAll
+        authZ: permitAll
+    PUT:
+      '/**':
+        authN: denyAll
+        authZ: denyAll
+    POST:
+      '/**':
+        authN: denyAll
+        authZ: denyAll
+    DELETE:
+      '/**':
+        authN: denyAll
+        authZ: denyAll
+  casConfig:
+    environment: development

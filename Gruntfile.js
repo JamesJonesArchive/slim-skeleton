@@ -44,14 +44,14 @@ module.exports = function(grunt) {
                 }
             }
         },
-        less: {
-            development: {
+        sass: {
+            dist: {
                 options: {
-                    compress: true,  //minifying the result
+                    style: 'expanded' // change to 'compressed' for minification
                 },
                 files: {
-                    //compiling base.less into base.css
-                    "./public/assets/stylesheets/frontend.css":"./assets/stylesheets/base.less"
+                    //compiling main.scss into main.css
+                    "./public/assets/stylesheets/main.css":"./assets/stylesheets/styles.scss"
                 }
             }
         },
@@ -62,7 +62,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         flatten: true,
-                        src: ['./bower_components/bootstrap/fonts/**'],
+                        src: ['./assets/fonts/**'],
                         dest: './public/assets/fonts',
                         filter: 'isFile'
                     }
@@ -74,12 +74,8 @@ module.exports = function(grunt) {
                 separator: ';',
             },
             main_js: {
-                src: [
-                    './bower_components/jquery/dist/jquery.js',
-                    './bower_components/bootstrap/dist/js/bootstrap.js',
-                    './assets/javascript/main.js'
-                ],
-                dest: './public/assets/javascript/frontend.js'
+                src: ['./assets/javascript/main.js'],
+                dest: './public/assets/javascript/main.js'
             }
         },
         uglify: {
@@ -88,7 +84,7 @@ module.exports = function(grunt) {
             },
             main_js: {
                 files: {
-                    './public/assets/javascript/frontend.js': './public/assets/javascript/frontend.js',
+                    './public/assets/javascript/main.js': './public/assets/javascript/main.js',
                 }
             }
         },
@@ -98,25 +94,24 @@ module.exports = function(grunt) {
             },
             options: {
                 bin: 'vendor/bin/phpunit',
-                colors: true
+                colors: true,
+                coverageHtml: 'coverage'
             }
         },
         watch: {
             main_js: {
                 files: [
                     //watched files
-                    './bower_components/jquery/dist/jquery.js',
-                    './bower_components/bootstrap/dist/js/bootstrap.js',
-                    './assets/javascript/frontend.js'
+                    './assets/javascript/main.js'
                 ],
-                tasks: ['concat:js_frontend','uglify:frontend'],     //tasks to run
+                tasks: ['concat:main_js','uglify:frontend'],     //tasks to run
                 options: {
                     livereload: true                        //reloads the browser
                 }
             },
-            less: {
-                files: ['./app/assets/stylesheets/*.less'],  //watched files
-                tasks: ['less'],                          //tasks to run
+            sass: {
+                files: ['./app/assets/stylesheets/*.scss', './app/assets/stylesheets/**/*.scss'],  //watched files
+                tasks: ['sass'],                          //tasks to run
                 options: {
                     livereload: true                        //reloads the browser
                 }
@@ -132,8 +127,9 @@ module.exports = function(grunt) {
     // Task definition
     grunt.registerTask('default', ['watch']);
     grunt.registerTask('serve', [
+        'phpunit',
         'copy',
-        'less',
+        'sass',
         'concat',
         'uglify',
         'php:dist',         // Start PHP Server
