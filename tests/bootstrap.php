@@ -9,3 +9,9 @@ define('PROJECT_ROOT', realpath(__DIR__.'/..'));
 require_once PROJECT_ROOT.'/vendor/autoload.php';
 
 define('TEST_CONFIG_DIR', PROJECT_ROOT.'/tests/config');
+
+//Enable PHP-VCR for webservice recording/playback
+\VCR\VCR::turnOn();
+\VCR\VCR::configure()
+    ->enableRequestMatchers(['host', 'method', 'url', 'query_string', 'post_fields'])
+    ->setMode('once');

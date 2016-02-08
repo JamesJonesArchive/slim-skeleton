@@ -11,7 +11,7 @@ module.exports = function(grunt) {
             dist: {
                 options: {
                     hostname: '127.0.0.1',
-                    port: 9000,
+                    port: 8080,
                     base: 'public',
                     keepalive: false,
                     open: false
