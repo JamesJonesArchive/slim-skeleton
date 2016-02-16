@@ -1,0 +1,32 @@
+{% include 'include/header.html' %}
+
+
+    <div class="page-header">
+        <h1>{{ username }} <span class="badge">{{ eppa|capitalize }}</span></h1>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <p>
+            This form calls a public webservice on <a href="http://www.jsontest.com/">JSON Test</a> that takes a string an outputs the MD5 hash.
+            </p>
+            <div class="row">
+                <form method="post" action="{{ base_url() }}/example">
+                    <div class="form-group">
+                        <label for="exampleInput1">Input String</label>
+                        <input class="form-control" id="exampleInput1" name="searchTerm" value="{{ input|default("") }}">
+                    </div>
+                    {% if result %}
+                        <div class="form-group">
+                            <label for="results">MD5</label>
+                            <input class="form-control read-only" id="results" name="md5results" value="{{ result }}" disabled>
+                        </div>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+
+{% include 'include/footer.html' %}
