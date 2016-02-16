@@ -1,10 +1,10 @@
 <?php
 /**
- * @category epierce
- * @package slim-skeleton
+ * @category USF-IT
+ * @package slimSkeleton
  * @author Eric Pierce <epierce@usf.edu>
  * @license http://www.opensource.org/licenses/MIT MIT
- * @link https://github.com/epierce/slim-skeleton
+ * @link https://github.com/USF-IT/slim-skeleton
  */
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
@@ -32,7 +32,6 @@ if (!file_exists($autoload = '../vendor/autoload.php')) {
 require_once $autoload;
 session_start();
 
-// Initialize Slim Framework
 if (!class_exists('\\Slim\\App')) {
     throw new \Exception(
         'Missing Slim from Composer dependencies.  Ensure slim/slim is in composer.json'
@@ -40,8 +39,9 @@ if (!class_exists('\\Slim\\App')) {
 }
 // Create a config object
 $configDir = isset($_ENV['PS_CONFIG_DIR']) ? $_ENV['PS_CONFIG_DIR'] : '../config';
-
 $usfConfigObject = new \USF\IdM\UsfConfig($configDir);
+
+// Run Slim application
 if (is_array($usfConfigObject->slimSettings)) {
     $app = new \Slim\App(['settings' => $usfConfigObject->slimSettings]);
     // Set up dependencies

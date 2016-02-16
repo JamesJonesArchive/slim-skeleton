@@ -1,6 +1,6 @@
 <?php
 
-namespace epierce\slimSkeleton\Action;
+namespace USF\IdM\SlimSkeleton\Action;
 
 use Slim\Views\Twig;
 use Slim\Collection;
@@ -8,23 +8,21 @@ use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-use epierce\slimSkeleton\Service\ExampleService;
 
 /**
  * Main page
  *
- * @category epierce
- * @package slim-skeleton
+ * @category USF-IT
+ * @package slimSkeleton
  * @author Eric Pierce <epierce@usf.edu>
  * @license http://www.opensource.org/licenses/MIT MIT
- * @link https://github.com/epierce/slim-skeleton
+ * @link https://github.com/USF-IT/slim-skeleton
  */
 final class HomeAction
 {
     private $view;
     private $logger;
     private $settings;
-    private $myService;
 
     /**
      * Class constructor
@@ -32,14 +30,12 @@ final class HomeAction
      * @param Twig            $view      View object
      * @param LoggerInterface $logger    Log object
      * @param Collection      $settings  Slim Settings
-     * @param ExampleService  $myService Example Service
      */
-    public function __construct(Twig $view, LoggerInterface $logger, Collection $settings, ExampleService $myService )
+    public function __construct(Twig $view, LoggerInterface $logger, Collection $settings)
     {
         $this->view = $view;
         $this->logger = $logger;
         $this->settings = $settings;
-        $this->myService = $myService;
     }
 
     /**
@@ -52,17 +48,21 @@ final class HomeAction
      */
     public function dispatch(Request $request, Response $response, $args)
     {
-        // Read a parameter from the GET/POST parameter
-        $queryFoo = $request->getQueryParams()['foo'] ?? '';
+        /**
+         * If you need CAS authentication, make sure to update the `interceptUrlMap`
+         * map in the config file.  The username will be available like this:
+         *
+         * $netid = $request->getHeaderLine('AUTH_PRINCIPAL');
+         *
+         * and the attributes:
+         *
+         * $usfid = $request->getHeaderLine('AUTH_ATTR_USFEDUUNUMBER');
+         */
 
-        // Call services and/or do controller logic here
-
-        // Setup data that will be passed to the Twig template
-        $view_attrs = [
-            'queryFoo' => $queryFoo
+        $view_attr = [
+            'page_title' => 'SlimSkeleton | Main'  // This will used in the <title> element on the page
         ];
 
-        $this->view->render($response, 'home.html', $view_attrs);
-        return $response;
+        return $this->view->render($response, 'home.html', $view_attr);
     }
 }

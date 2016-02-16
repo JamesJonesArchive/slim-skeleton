@@ -5,7 +5,15 @@
  * see: http://www.slimframework.com/docs/objects/router.html
  *
  */
-$app->get('/', 'SlimExample\Action\HomeAction:dispatch')
+
+// Application Home Page
+$app->get('/', 'SlimSkeleton\Action\HomeAction:dispatch')
     ->setName('homepage');
 
-// Other routes go here
+// Display Search form
+$app->get('/example', 'SlimSkeleton\Action\ExampleAction:dispatch')
+    ->setName('exampleFormDisplay');
+
+// Display Results
+$app->post('/example', 'SlimSkeleton\Action\ExampleAction:getMD5fromWS')
+    ->setName('exampleResults');
