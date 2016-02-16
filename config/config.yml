@@ -1,71 +1,42 @@
 # Slim Configuration
 slimSettings:
+  # Display error messages to the user when an exception is thrown
   displayErrorDetails: true
+  # Use Monolog for logging
   logger:
     path: ../logs/application.log
-    name: PeopleSoftAuthenticator
+    name: slimSkeleton
+    level: info
   # Use Twig for templating
   view:
     template_path: ../templates
     twig:
       cache: ../cache
-      debug: false
+      debug: true
       # Rebuild views whenever they change
       auto_reload: true
       # Auto escape HTML data
       autoescape: true
       # Ignore invalid variables instead of throwing an exception
       strict_variables: false
-  nams:
-    host: dev.example.edu
-    restCasClient:
-      cas_host: https://cas.example.usf.edu
-      cas_user: test
-      cas_password: 'SECRET'
-      ticket_storage: '/tmp/PeopleSoftAuthenticator_TGT.json'
-  accountTypes:
-    SelfService: PeopleSoftSS
-    GEMS: PeopleSoftHR
-    FAST: PeopleSoftFM
-  defaultInstance: development
-  instances:
-    development:
-      GEMS:
-        encryptionKey: 1234567890123456
-        encryptionBlockType: CBC
-        host: gems.example.edu
-        appPath: /psp/gemsdvlp-portal/
-        port: 443
-        deepLinkPath: EMPLOYEE/HRMS/c/
-      SelfService:
-        encryptionKey: 1234567890123456
-        encryptionBlockType: CBC
-        host: gems.example.edu
-        appPath: /psp/gemsdvlp-portal/
-        port: 443
-        deepLinkPath: EMPLOYEE/HRMS/c/
-      FAST:
-        encryptionKey: 1234567890123456
-        encryptionBlockType: CBC
-        host: fast.example.edu
-        appPath: /psp/fastdvlp-portal/
-        port: 443
-        deepLinkPath: EMPLOYEE/HRMS/c/
   authentication:
     # Use CAS for authentication
     cas:
       environment: development
-    # AuthN/AuthZ Map -- List URL patterns from most to least specific
+    # AuthN/AuthZ Map
     interceptUrlMap:
       GET:
         '/health_check': # Health check is allowed without authentication
           authN: permitAll
           authZ: permitAll
-        '^.*': # Use RegEx to match all URLs
+        '/**': # All other pages require CAS
           authN: CAS
           authZ: permitAll
+        '/': # Allow the home page without authentication
+          authN: permitAll
+          authZ: permitAll
       POST:
-        '/**': # Use RegEx to match all URLs
+        '/**':
           authN: CAS
           authZ: permitAll
       PUT:
