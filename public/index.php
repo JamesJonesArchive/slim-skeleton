@@ -1,10 +1,10 @@
 <?php
 /**
- * @category USF-IT
- * @package slimSkeleton
- * @author Eric Pierce <epierce@usf.edu>
- * @license http://www.opensource.org/licenses/MIT MIT
- * @link https://github.com/USF-IT/slim-skeleton
+* @category usf-it
+* @package slim-skeleton
+* @author Eric Pierce <epierce@usf.edu>
+* @license http://www.opensource.org/licenses/MIT MIT
+* @link https://github.com/USF-IT/slim-skeleton
  */
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
