@@ -1,5 +1,5 @@
 {
-    "name": "USF-IT/slim-skeleton",
+    "name": "usf-it/slim-skeleton",
     "description": "A Slim Framework 3.0 skeleton application for rapid development",
     "keywords": ["microframework","rest","router"],
     "homepage": "http://github.com/USF-IT/slim-skeleton",
