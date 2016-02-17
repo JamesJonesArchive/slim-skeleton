@@ -41,16 +41,17 @@ class ExampleService
     }
 
     /**
-     * Get the MD5 hash of the string from a public webservice
+     * Get a list of photos from a public webservice (http://jsonplaceholder.typicode.com/)
      *
      * @param $input_text
      * @return mixed
      */
-    public function getMD5fromWS($input_string)
+    public function getPhotos($album_id)
     {
         $client = new Client();
-        $data = json_decode($client->get('http://md5.jsontest.com/?text='.$input_string)->getBody(), true);
 
-        return $data['md5'];
+        // get JSON from the webservice and convert it into an assoc. array
+        return json_decode($client->get("http://jsonplaceholder.typicode.com/album/${album_id}/photos")->getBody(), true);
+
     }
 }

@@ -1,32 +1,43 @@
 {% include 'include/header.html' %}
 
 
-    <div class="page-header">
-        <h1>{{ username }} <span class="badge">{{ eppa|capitalize }}</span></h1>
-    </div>
+    <!--
+        <div class="page-header pull-right">
+            <h1>{{ username }} <span class="badge">{{ eppa|capitalize }}</span></h1>
+        </div>
+    -->
 
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2">
+        <div class="col-md-12">
             <p>
-            This form calls a public webservice on <a href="http://www.jsontest.com/">JSON Test</a> that takes a string an outputs the MD5 hash.
+                This page displays placeholder data and images pulled from a public testing webservice: <a href="http://jsonplaceholder.typicode.com/">JSONPlaceholder</a>.
+                To change the album being displayed, add <strong><em>/number</em></strong> to the URL for this page or use the <strong><em>?album=number</em></strong> query parameter.  Any number between 1 and 100 is valid.
             </p>
-            <div class="row">
-                <form method="post" action="{{ base_url() }}/example">
-                    <div class="form-group">
-                        <label for="exampleInput1">Input String</label>
-                        <input class="form-control" id="exampleInput1" name="searchTerm" value="{{ input|default("") }}">
-                    </div>
-                    {% if result %}
-                        <div class="form-group">
-                            <label for="results">MD5</label>
-                            <input class="form-control read-only" id="results" name="md5results" value="{{ result }}" disabled>
-                        </div>
-                    {% endif %}
-                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                </form>
-            </div>
         </div>
     </div>
     <br>
+    <div class="page-header">
+        <h1>Album {{ data[0].albumId }}</h1>
+    </div>
+    {% for entry in data %}
+
+        {%if (loop.index % 5) == 0 %}
+            <div class="row">
+        {% endif %}
+
+            <div class="col-md-2">
+                <p>
+                    <img data-src="{{ entry.thumbnailUrl}}" class="img-thumbnail" alt="{{ entry.title }}" src="{{ entry.thumbnailUrl}}" data-holder-rendered="true">
+                </p>
+            </div>
+
+        {%if ((loop.index % 5) == 0) or loop.last %}
+            </div>
+        {% endif %}
+    {% endfor %}
+
+
+<br>
+        {{ dump(data) }}
 
 {% include 'include/footer.html' %}

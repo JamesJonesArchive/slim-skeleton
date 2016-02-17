@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use USF\IdM\SlimSkeleton\Service\ExampleService;
 
 /**
- * Main page
+ * Example Controller
  *
  * @category USF-IT
  * @package slimSkeleton
@@ -55,42 +55,16 @@ final class ExampleAction
         $netid = $request->getHeaderLine('AUTH_PRINCIPAL');
         $eppa = $request->getHeaderLine('AUTH_ATTR_EDUPERSONPRIMARYAFFILIATION');
 
-
-        $view_attr = [
-            'page_title' => 'SlimSkeleton | Example',  // This will used in the <title> element on the page
-            'username' => $netid,
-            'eppa' => $eppa
-        ];
-
-        return $this->view->render($response, 'example.html', $view_attr);
-    }
-
-    /**
-     * Run Controller
-     *
-     * @param ServerRequestInterface $request  PSR7 Request object
-     * @param ResponseInterface      $response PSR7 Response object
-     * @param array                  $args     Request arguments
-     * @return ResponseInterface
-     */
-    public function getMD5fromWS(Request $request, Response $response, $args)
-    {
-        $netid = $request->getHeaderLine('AUTH_PRINCIPAL');
-        $eppa = $request->getHeaderLine('AUTH_ATTR_EDUPERSONPRIMARYAFFILIATION');
-
-        // Read data from POST data
-        $parsedBody = $request->getParsedBody();
-
-        $results = $this->service->getMD5fromWS($parsedBody['searchTerm']);
+        $albumID = $args['album_id'] ?? $request->getQueryParams()['album'] ?? 1;
 
         $view_attr = [
             'page_title' => 'SlimSkeleton | Example',  // This will used in the <title> element on the page
             'username' => $netid,
             'eppa' => $eppa,
-            'input' => $parsedBody['searchTerm'],
-            'result' => $results
+            'data' => $this->service->getPhotos($albumID)
         ];
 
         return $this->view->render($response, 'example.html', $view_attr);
     }
+
 }
