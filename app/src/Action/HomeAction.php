@@ -12,8 +12,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 /**
  * Main page
  *
- * @category USF-IT
- * @package slimSkeleton
+ * @category usf-it
+ * @package slim-skeleton
  * @author Eric Pierce <epierce@usf.edu>
  * @license http://www.opensource.org/licenses/MIT MIT
  * @link https://github.com/USF-IT/slim-skeleton
