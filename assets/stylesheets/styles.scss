@@ -150,9 +150,20 @@ $web-font-path: "https://fonts.googleapis.com/css?family=Open+Sans:400italic,700
 
   &-primary {
     .panel-title {
+      font-size: ceil(($font-size-base * 1.7));
       color: #fff;
     }
   }
+}
+
+.search-results-panel {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.search-results-form-group {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 // Icons ======================================================================
@@ -170,4 +181,21 @@ $web-font-path: "https://fonts.googleapis.com/css?family=Open+Sans:400italic,700
     &.glyphicon-chevron-right {
         @extend .fa-chevron-right;
     }
+}
+
+.main-navigation li a {
+    text-decoration: none;
+}
+
+.main-navigation li a:hover {
+    text-decoration: none;
+    color: #FFF;
+}
+
+.service-desc {
+  margin-left: 15px;
+}
+
+.xtra_vert_space {
+  margin-bottom: 15px;
 }
