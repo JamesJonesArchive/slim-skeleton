@@ -1,1 +1,3 @@
-// Local javascript code goes here
+$(document).ready(function(){
+
+});

@@ -11,7 +11,7 @@ module.exports = function(grunt) {
             dist: {
                 options: {
                     hostname: '127.0.0.1',
-                    port: 9000,
+                    port: 8080,
                     base: 'public',
                     keepalive: false,
                     open: false
@@ -26,7 +26,8 @@ module.exports = function(grunt) {
                         'public/assets/javascript/*.js',
                         'public/*.php',
                         'public/**/*.php',
-                        'templates/*.twig'
+                        'templates/*.html',
+                        'templates/**/*.html'
                     ]
                 },
                 options: {
@@ -47,7 +48,7 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 options: {
-                    style: 'expanded' // change to 'compressed' for minification
+                    style: 'compressed' // change to 'compressed' for minification
                 },
                 files: {
                     //compiling main.scss into main.css
@@ -65,8 +66,15 @@ module.exports = function(grunt) {
                         src: ['./assets/fonts/**'],
                         dest: './public/assets/fonts',
                         filter: 'isFile'
-                    }
-                ],
+                    },
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['./assets/images/**'],
+                        dest: './public/assets/images',
+                        filter: 'isFile'
+                    },
+                ]
             }
         },
         concat: {
@@ -80,7 +88,7 @@ module.exports = function(grunt) {
         },
         uglify: {
             options: {
-                mangle: false  // Use if you want the names of your functions and variables unchanged
+                mangle: true  // Use if you want the names of your functions and variables unchanged
             },
             main_js: {
                 files: {
@@ -126,6 +134,13 @@ module.exports = function(grunt) {
 
     // Task definition
     grunt.registerTask('default', ['watch']);
+    grunt.registerTask('build', [
+        'phpunit',
+        'copy',
+        'sass',
+        'concat',
+        'uglify'
+    ]);
     grunt.registerTask('serve', [
         'phpunit',
         'copy',
