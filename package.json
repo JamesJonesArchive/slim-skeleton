@@ -5,7 +5,7 @@
   "main": "Gruntfile.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/epierce/slim-skeleton.git"
+    "url": "https://github.com/USF-IT/slim-skeleton.git"
   },
   "keywords": [
     "PHP",
@@ -16,7 +16,7 @@
   "author": "Eric Pierce",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/epierce/slim-skeleton/issues"
+    "url": "https://github.com/USF-IT/slim-skeleton/issues"
   },
   "devDependencies": {
     "browser-sync": "^2.9.12",
