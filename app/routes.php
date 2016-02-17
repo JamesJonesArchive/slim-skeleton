@@ -10,10 +10,10 @@
 $app->get('/', 'SlimSkeleton\Action\HomeAction:dispatch')
     ->setName('homepage');
 
-// Display Search form
-$app->get('/example', 'SlimSkeleton\Action\ExampleAction:dispatch')
-    ->setName('exampleFormDisplay');
+// Display images from a webservice.  The album id piece of URL is optional.
+$app->get('/example[/{album_id}]', 'SlimSkeleton\Action\ExampleAction:dispatch')
+    ->setName('displayPlaceholderImages');
 
-// Display Results
-$app->post('/example', 'SlimSkeleton\Action\ExampleAction:getMD5fromWS')
-    ->setName('exampleResults');
+// If you need to use POST or PUT you can config the route like this.
+//$app->post('/example', 'SlimSkeleton\Action\ExampleAction:runThisMethod')
+//    ->setName('examplePOST');
