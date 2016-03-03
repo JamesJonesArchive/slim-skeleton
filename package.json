@@ -29,6 +29,9 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-php": "^1.5.1",
     "grunt-phpunit": "^0.3.6",
-    "load-grunt-tasks": "^3.3.0"
+    "load-grunt-tasks": "^3.3.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-imagemin": "^1.0.0"
+
   }
 }

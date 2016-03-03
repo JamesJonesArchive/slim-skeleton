@@ -1,4 +1,6 @@
 //Gruntfile
+'use strict';
+
 module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
@@ -7,6 +9,20 @@ module.exports = function(grunt) {
     grunt.initConfig({
 
         // Task configuration
+        // Task configuration
+        clean: {
+            options: {
+                "no-write": false,  // Change to true for testing
+                force: true
+            },
+            build: [
+                'public/assets/**/*',
+                'cache/*',
+                'logs/*',
+                'coverage/*',
+                '!**/README.md'
+            ]
+        },
         php: {
             dist: {
                 options: {
@@ -45,10 +61,25 @@ module.exports = function(grunt) {
                 }
             }
         },
+        imagemin: {
+            images: {
+                options: {
+                    optimizationLevel: 4,
+                    progressive: true,
+                    interlaced: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'assets/images/',
+                    src: ['**/*.{png,jpg,gif}'],
+                    dest: 'public/assets/images/'
+                }]
+            }
+        },
         sass: {
             dist: {
                 options: {
-                    style: 'compressed' // change to 'compressed' for minification
+                    style: 'compressed'
                 },
                 files: {
                     //compiling main.scss into main.css
@@ -66,15 +97,8 @@ module.exports = function(grunt) {
                         src: ['./assets/fonts/**'],
                         dest: './public/assets/fonts',
                         filter: 'isFile'
-                    },
-                    {
-                        expand: true,
-                        flatten: true,
-                        src: ['./assets/images/**'],
-                        dest: './public/assets/images',
-                        filter: 'isFile'
-                    },
-                ]
+                    }
+                ],
             }
         },
         concat: {
@@ -88,7 +112,7 @@ module.exports = function(grunt) {
         },
         uglify: {
             options: {
-                mangle: true  // Use if you want the names of your functions and variables unchanged
+                mangle: true
             },
             main_js: {
                 files: {
@@ -133,20 +157,18 @@ module.exports = function(grunt) {
 
 
     // Task definition
-    grunt.registerTask('default', ['watch']);
+    grunt.registerTask('default', ['build']);
     grunt.registerTask('build', [
         'phpunit',
+        'clean',
+        'imagemin',
         'copy',
         'sass',
         'concat',
         'uglify'
     ]);
     grunt.registerTask('serve', [
-        'phpunit',
-        'copy',
-        'sass',
-        'concat',
-        'uglify',
+        'build',
         'php:dist',         // Start PHP Server
         'browserSync:dist', // Using the php instance as a proxy
         'watch'             // Any other watch tasks you want to run
